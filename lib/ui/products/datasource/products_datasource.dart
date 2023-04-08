@@ -11,7 +11,8 @@ class ProductsDataSource {
 
   ProductsDataSource(this._api, this.preference);
 
-  Future<Products> getProducts(String? categoryName, int skipLength, int limit) => categoryName.isNull
-      ? _api.getAllProducts(limit, skipLength)
-      : _api.getProductsByCategory(categoryName!, limit, skipLength);
+  Future<Products> getProducts(String? categoryName, String? searchKeyword, int skipLength, int limit) =>
+      categoryName.isNull
+          ? _api.getAllProducts(limit, skipLength, searchKeyword ?? "")
+          : _api.getProductsByCategory(categoryName!, limit, skipLength);
 }

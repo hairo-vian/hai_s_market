@@ -22,11 +22,13 @@ class _ProductsApi implements ProductsApi {
   Future<Products> getAllProducts(
     limit,
     skip,
+    searchKeyword,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'limit': limit,
       r'skip': skip,
+      r'q': searchKeyword,
     };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -38,7 +40,7 @@ class _ProductsApi implements ProductsApi {
     )
             .compose(
               _dio.options,
-              '/products',
+              '/products/search',
               queryParameters: queryParameters,
               data: _data,
             )

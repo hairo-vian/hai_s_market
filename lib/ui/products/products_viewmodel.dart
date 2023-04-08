@@ -9,13 +9,17 @@ import 'package:injectable/injectable.dart';
 class ProductsState extends StateData {
   List<Product>? products = [];
   final int skipLength;
+  final bool allItemFetched;
 
-  ProductsState({this.products, this.skipLength = 0, ErrorModel? error}) : super(error: error);
+  ProductsState({this.products, this.skipLength = 0, this.allItemFetched = false, ErrorModel? error})
+      : super(error: error);
 
   @override
-  ProductsState copyWith({List<Product>? products, int? skipLength, ErrorModel? error}) => ProductsState(
+  ProductsState copyWith({List<Product>? products, int? skipLength, bool? allItemFetched, ErrorModel? error}) =>
+      ProductsState(
         products: products ?? this.products,
         skipLength: skipLength ?? this.skipLength,
+        allItemFetched: allItemFetched ?? this.allItemFetched,
         error: error ?? this.error,
       );
 }
@@ -26,19 +30,29 @@ class ProductsViewModel extends ViewModel<ProductsState> {
 
   final ProductsDataSource _dataSource;
 
-  void getProductList(String? categoryName) {
-    _dataSource.getProducts(categoryName, state.skipLength, 30).then((value) {
+  void getProductList(String? categoryName, String? searchKeyword) {
+    _dataSource.getProducts(categoryName, searchKeyword, state.skipLength, 30).then((value) {
       List<Product> fetchedProducts = state.products ?? [];
       fetchedProducts.addAll(value.get()!);
-      emit(state.copyWith(products: fetchedProducts));
+      emit(state.copyWith(
+        products: fetchedProducts,
+        allItemFetched: fetchedProducts.length >= value.total!,
+      ));
     }).onError((error, stackTrace) {
       catchError(error, stackTrace);
     });
   }
 
-  void fetchNextPage(String? categoryName) {
-    emit(state.copyWith(skipLength: state.skipLength + 30));
-    getProductList(categoryName);
+  void searchProducts(String? categoryName, String? keyword) {
+    emit(state.copyWith(products: []));
+    getProductList(categoryName, keyword);
+  }
+
+  void fetchNextPage(String? categoryName, String? searchKeyword) {
+    if (!state.allItemFetched) {
+      emit(state.copyWith(skipLength: state.skipLength + 30));
+      getProductList(categoryName, searchKeyword);
+    }
   }
 
   @override

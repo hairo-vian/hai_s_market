@@ -336,12 +336,13 @@ class NewRelease extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  const Header({
+  Header({
     super.key,
     required this.context,
   });
 
   final BuildContext context;
+  final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -366,6 +367,17 @@ class Header extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: TextField(
+                  controller: _searchController,
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (value) {
+                    Navigator.pushNamed(
+                      context,
+                      ProductsScreen.routeName,
+                      arguments: ProductsScreenArgument(
+                        searchKeyword: _searchController.text,
+                      ),
+                    );
+                  },
                   decoration: InputDecoration(
                     hintText: 'Search',
                     prefixIcon: const Icon(Icons.search),

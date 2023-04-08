@@ -33,14 +33,19 @@ class ProductsScreen extends Screen {
 
 class SampleScreenState extends ScreenState<ProductsScreen, ProductsViewModel, ProductsState> {
   final _scrollController = ScrollController();
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    viewModel.getProductList(widget.categoryName);
+    _searchController.text = widget.searchKeyword ?? "";
+    viewModel.getProductList(widget.categoryName, widget.searchKeyword);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        viewModel.fetchNextPage(widget.categoryName);
+        viewModel.fetchNextPage(
+          widget.categoryName,
+          widget.searchKeyword,
+        );
       }
     });
   }
@@ -57,6 +62,11 @@ class SampleScreenState extends ScreenState<ProductsScreen, ProductsViewModel, P
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: TextField(
+                  controller: _searchController,
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (value) {
+                    viewModel.searchProducts(widget.categoryName, _searchController.text);
+                  },
                   decoration: InputDecoration(
                     hintText: 'Search',
                     prefixIcon: const Icon(Icons.search),
