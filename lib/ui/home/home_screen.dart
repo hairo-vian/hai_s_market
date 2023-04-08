@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hai_market/ui/cart/cart_screen.dart';
 import 'package:hai_market/ui/home/home_viewmodel.dart';
 import 'package:hai_market/ui/login/login_screen.dart';
 import 'package:hai_market/ui/product_detail/product_detail_screen.dart';
 import 'package:hai_market/ui/products/products_screen.dart';
+import 'package:hai_market/ui/register/register_screen.dart';
 import 'package:hai_market/util/extensions.dart';
 import 'package:hai_market/util/size_util.dart';
 import 'package:hai_market/util/view_component/screen/screen.dart';
@@ -84,16 +86,26 @@ class Footer extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Sign in",
-                      style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
+                      child: Text(
+                        "Sign in",
+                        style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Sign up",
-                      style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, RegisterScreen.routeName);
+                      },
+                      child: Text(
+                        "Sign up",
+                        style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
@@ -258,78 +270,76 @@ class NewRelease extends StatelessWidget {
             child: BlocBuilder<HomeViewModel, HomeState>(
               bloc: viewModel,
               buildWhen: (previous, current) => previous.products == null && current.products != null,
-              builder: (context, state) =>
-              state.products == null
+              builder: (context, state) => state.products == null
                   ? Container()
                   : ListView.builder(
-                itemCount: state.products!.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) =>
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          ProductDetailScreen.routeName,
-                          arguments: ProductDetailScreenArgument(state.products![index]),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        width: SizeUtil.fullWidth(context) * 1.8 / 4,
-                        child: Card(
-                          color: "#F2F1F0".toColor(),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
+                      itemCount: state.products!.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) => GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductDetailScreen.routeName,
+                            arguments: ProductDetailScreenArgument(state.products![index]),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: SizeUtil.fullWidth(context) * 1.8 / 4,
+                          child: Card(
+                            color: "#F2F1F0".toColor(),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                  child: Image.network(
+                                    state.products![index].thumbnail!,
+                                    height: 180,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
-                                child: Image.network(
-                                  state.products![index].thumbnail!,
-                                  height: 180,
-                                  fit: BoxFit.fill,
+                                const SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 5.0),
-                                  child: Text(
-                                    state.products![index].title!,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.left,
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 15,
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 5.0),
+                                    child: Text(
+                                      state.products![index].title!,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.left,
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 5.0),
-                                  child: Text(
-                                    state.products![index].price!.toCurrency("\$"),
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 5.0),
+                                    child: Text(
+                                      state.products![index].price!.toCurrency("\$"),
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-              ),
             ),
           ),
         ],
@@ -391,9 +401,18 @@ class Header extends StatelessWidget {
                 ),
               ),
             ),
-            Image.asset(
-              "assets/ic_cart.png",
-              width: 50,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  CartScreen.routeName,
+                  arguments: CartScreenArgument(),
+                );
+              },
+              child: Image.asset(
+                "assets/ic_cart.png",
+                width: 50,
+              ),
             ),
             GestureDetector(
               onTap: () {
@@ -470,76 +489,74 @@ class Categories extends StatelessWidget {
       child: BlocBuilder<HomeViewModel, HomeState>(
         bloc: viewModel,
         buildWhen: (previous, current) => previous.categories == null && current.categories != null,
-        builder: (context, state) =>
-        state.categories == null
+        builder: (context, state) => state.categories == null
             ? Container()
             : ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: state.categories!.length,
-          itemBuilder: (context, index) =>
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, ProductsScreen.routeName,
-                      arguments: ProductsScreenArgument(
-                        categoryName: state.categories![index].text,
-                      ));
-                },
-                child: Container(
-                  color: index.isEven ? "#E8E8E8".toColor() : "#474747".toColor(),
-                  width: SizeUtil.fullWidth(context) * 3 / 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            state.categories![index].text.toCapitalCase(),
-                            style: GoogleFonts.nunito(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: index.isEven ? Colors.black : Colors.white),
-                            maxLines: 1,
+                scrollDirection: Axis.horizontal,
+                itemCount: state.categories!.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, ProductsScreen.routeName,
+                        arguments: ProductsScreenArgument(
+                          categoryName: state.categories![index].text,
+                        ));
+                  },
+                  child: Container(
+                    color: index.isEven ? "#E8E8E8".toColor() : "#474747".toColor(),
+                    width: SizeUtil.fullWidth(context) * 3 / 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              state.categories![index].text.toCapitalCase(),
+                              style: GoogleFonts.nunito(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: index.isEven ? Colors.black : Colors.white),
+                              maxLines: 1,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            state.categories![index].image,
-                            height: 200,
-                            width: 150,
-                            fit: BoxFit.cover,
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Shop now",
-                              style: GoogleFonts.raleway(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                              state.categories![index].image,
+                              height: 200,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Shop now",
+                                style: GoogleFonts.raleway(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: index.isEven ? Colors.black : Colors.white,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_right,
                                 color: index.isEven ? Colors.black : Colors.white,
                               ),
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_right,
-                              color: index.isEven ? Colors.black : Colors.white,
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:hai_market/ui/cart/cart_viewmodel.dart';
 import 'package:hai_market/ui/home/home_viewmodel.dart';
 import 'package:hai_market/ui/login/login_viewmodel.dart';
 import 'package:hai_market/ui/product_detail/product_detail_viewmodel.dart';
@@ -18,6 +19,7 @@ class StateFactory<T> {
       ProductDetailState: () => ProductDetailState() as T,
       LoginState: () => LoginState() as T,
       RegisterState: () => RegisterState() as T,
+      CartState: () => CartState() as T,
     };
     return createInstanceOf(states)!;
   }

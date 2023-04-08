@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hai_market/model/product/product.dart';
+import 'package:hai_market/ui/cart/cart_screen.dart';
 import 'package:hai_market/ui/product_detail/product_detail_viewmodel.dart';
 import 'package:hai_market/util/extensions.dart';
 import 'package:hai_market/util/size_util.dart';
@@ -45,7 +46,11 @@ class ProductDetailScreenState extends ScreenState<ProductDetailScreen, ProductD
                     right: 10,
                     child: GestureDetector(
                       onTap: () {
-                        //TODO : Open Add Cart Screen
+                        Navigator.pushNamed(
+                          context,
+                          CartScreen.routeName,
+                          arguments: CartScreenArgument(product: widget.product),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),

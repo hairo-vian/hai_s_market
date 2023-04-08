@@ -28,10 +28,10 @@ class ProductsScreen extends Screen {
   }) : super(key: key);
 
   @override
-  SampleScreenState createState() => SampleScreenState();
+  ProductsScreenState createState() => ProductsScreenState();
 }
 
-class SampleScreenState extends ScreenState<ProductsScreen, ProductsViewModel, ProductsState> {
+class ProductsScreenState extends ScreenState<ProductsScreen, ProductsViewModel, ProductsState> {
   final _scrollController = ScrollController();
   final _searchController = TextEditingController();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hai_market/model/error/error_model.dart';
+import 'package:hai_market/ui/cart/cart_screen.dart';
 import 'package:hai_market/ui/error/error_screen.dart';
 import 'package:hai_market/ui/home/home_screen.dart';
 import 'package:hai_market/ui/login/login_screen.dart';
@@ -12,7 +13,6 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
-
       case LoginScreen.routeName:
         return MaterialPageRoute(
           settings: settings,
@@ -29,6 +29,17 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => const HomeScreen(),
+        );
+
+      case CartScreen.routeName:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) {
+            var argument = args as CartScreenArgument;
+            return CartScreen(
+              product: argument.product,
+            );
+          },
         );
 
       case ProductsScreen.routeName:
