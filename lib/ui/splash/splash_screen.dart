@@ -3,7 +3,7 @@ import 'package:hai_market/ui/home/home_screen.dart';
 import 'package:hai_market/util/size_util.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String routeName = "/splash";
+  static const String routeName = "/";
 
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -11,8 +11,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
   Animation<double>? _animation;
 
@@ -47,10 +46,8 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    _animation =
-        CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    _animation = CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
 
     _animation!.addListener(() => setState(() {}));
     _animationController!.forward();

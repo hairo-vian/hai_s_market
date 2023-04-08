@@ -28,6 +28,11 @@ extension CurrencyConverter on double {
   }
 }
 
-extension Validator on String? {
+extension ValidatorNull on String? {
   bool get isNull => this == null;
+}
+
+extension Validator on String {
+  bool get isValidEmail =>
+      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(this);
 }

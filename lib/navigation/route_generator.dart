@@ -2,14 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:hai_market/model/error/error_model.dart';
 import 'package:hai_market/ui/error/error_screen.dart';
 import 'package:hai_market/ui/home/home_screen.dart';
+import 'package:hai_market/ui/login/login_screen.dart';
 import 'package:hai_market/ui/product_detail/product_detail_screen.dart';
 import 'package:hai_market/ui/products/products_screen.dart';
+import 'package:hai_market/ui/register/register_screen.dart';
 import 'package:hai_market/ui/splash/splash_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
+
+      case LoginScreen.routeName:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const LoginScreen(),
+        );
+
+      case RegisterScreen.routeName:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const RegisterScreen(),
+        );
+
       case HomeScreen.routeName:
         return MaterialPageRoute(
           settings: settings,
