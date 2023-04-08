@@ -19,9 +19,15 @@ class _ProductsApi implements ProductsApi {
   String? baseUrl;
 
   @override
-  Future<Products> getAllProducts() async {
+  Future<Products> getAllProducts(
+    limit,
+    skip,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'limit': limit,
+      r'skip': skip,
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result =
@@ -42,9 +48,16 @@ class _ProductsApi implements ProductsApi {
   }
 
   @override
-  Future<Products> getProductsByCategory(categoryName) async {
+  Future<Products> getProductsByCategory(
+    categoryName,
+    limit,
+    skip,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'limit': limit,
+      r'skip': skip,
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result =

@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class DioFactory {
   Dio create() {
     final Dio dio = Dio();
-    const baseUrl = "https://www.dummyjson.com";
+    const baseUrl = "https://dummyjson.com";
     dio.options = BaseOptions(
       receiveDataWhenStatusError: true,
       receiveTimeout: 30 * 1000,

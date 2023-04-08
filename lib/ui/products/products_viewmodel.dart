@@ -7,13 +7,15 @@ import 'package:hai_market/ui/products/datasource/products_datasource.dart';
 import 'package:injectable/injectable.dart';
 
 class ProductsState extends StateData {
-  final List<Product>? products;
+  List<Product>? products = [];
+  final int skipLength;
 
-  ProductsState({this.products, ErrorModel? error}) : super(error: error);
+  ProductsState({this.products, this.skipLength = 0, ErrorModel? error}) : super(error: error);
 
   @override
-  ProductsState copyWith({List<Product>? products, ErrorModel? error}) => ProductsState(
+  ProductsState copyWith({List<Product>? products, int? skipLength, ErrorModel? error}) => ProductsState(
         products: products ?? this.products,
+        skipLength: skipLength ?? this.skipLength,
         error: error ?? this.error,
       );
 }
@@ -24,12 +26,19 @@ class ProductsViewModel extends ViewModel<ProductsState> {
 
   final ProductsDataSource _dataSource;
 
-  void getProductsList(String? categoryName) {
-    _dataSource.getProducts(categoryName).then((value) {
-      emit(state.copyWith(products: value.get()));
+  void getProductList(String? categoryName) {
+    _dataSource.getProducts(categoryName, state.skipLength, 30).then((value) {
+      List<Product> fetchedProducts = state.products ?? [];
+      fetchedProducts.addAll(value.get()!);
+      emit(state.copyWith(products: fetchedProducts));
     }).onError((error, stackTrace) {
       catchError(error, stackTrace);
     });
+  }
+
+  void fetchNextPage(String? categoryName) {
+    emit(state.copyWith(skipLength: state.skipLength + 30));
+    getProductList(categoryName);
   }
 
   @override

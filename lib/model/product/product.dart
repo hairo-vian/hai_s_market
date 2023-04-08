@@ -11,17 +11,18 @@ class Category {
 }
 
 @JsonSerializable()
-class Products implements JSONModel{
+class Products implements JSONModel {
   List<Product>? products;
+  int? total;
 
-  Products({this.products});
+  Products({this.products, this.total});
 
   @override
   Map<String, dynamic> toJson() => _$ProductsToJson(this);
 
   factory Products.fromJson(dynamic json) => _$ProductsFromJson(json);
 
-  List<Product>? get()=> products;
+  List<Product>? get() => products;
 }
 
 @JsonSerializable()

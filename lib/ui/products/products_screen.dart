@@ -32,10 +32,17 @@ class ProductsScreen extends Screen {
 }
 
 class SampleScreenState extends ScreenState<ProductsScreen, ProductsViewModel, ProductsState> {
+  final _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    viewModel.getProductsList(widget.categoryName);
+    viewModel.getProductList(widget.categoryName);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        viewModel.fetchNextPage(widget.categoryName);
+      }
+    });
   }
 
   @override
@@ -61,7 +68,6 @@ class SampleScreenState extends ScreenState<ProductsScreen, ProductsViewModel, P
               ),
               BlocBuilder<ProductsViewModel, ProductsState>(
                   bloc: viewModel,
-                  buildWhen: (previous, current) => previous.products == null && current.products != null,
                   builder: (context, state) {
                     if (state.products == null) {
                       return Container();
@@ -69,6 +75,7 @@ class SampleScreenState extends ScreenState<ProductsScreen, ProductsViewModel, P
                     var products = state.products!;
                     return Expanded(
                       child: GridView.count(
+                        controller: _scrollController,
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         crossAxisCount: 2,

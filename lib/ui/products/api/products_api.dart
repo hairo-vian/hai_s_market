@@ -13,8 +13,9 @@ abstract class ProductsApi {
   factory ProductsApi(Dio dio) = _ProductsApi;
 
   @GET(ApiContract.getAllProducts)
-  Future<Products> getAllProducts();
+  Future<Products> getAllProducts(@Query("limit") int limit, @Query("skip") int skip);
 
   @GET("${ApiContract.getProductsByCategory}/{categoryName}")
-  Future<Products> getProductsByCategory(@Path("categoryName") String categoryName);
+  Future<Products> getProductsByCategory(
+      @Path("categoryName") String categoryName, @Query("limit") int limit, @Query("skip") int skip);
 }
