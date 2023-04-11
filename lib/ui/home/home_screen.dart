@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hai_market/ui/about/about_screen.dart';
 import 'package:hai_market/ui/cart/cart_screen.dart';
 import 'package:hai_market/ui/home/home_viewmodel.dart';
 import 'package:hai_market/ui/login/login_screen.dart';
@@ -56,6 +57,96 @@ class HomeScreenState extends ScreenState<HomeScreen, HomeViewModel, HomeState> 
           ],
         ),
       ),
+      drawer: Drawer(
+        child: BlocBuilder<HomeViewModel, HomeState>(
+          builder: (context, state) => ListView(
+            children: [
+              DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: "#3B3A44".toColor(),
+                  ),
+                  child: viewModel.isLoggedIn()
+                      ? Stack(children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Welcome \n${viewModel.username}",
+                              style: GoogleFonts.montserrat(
+                                  color: "#FFDA60".toColor(), fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "What would you like to do?",
+                              style: GoogleFonts.montserrat(
+                                  color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ])
+                      : const SizedBox()),
+              ListTile(
+                leading: viewModel.isLoggedIn() ? const Icon(Icons.person) : const Icon(Icons.login),
+                title: Text(viewModel.isLoggedIn() ? 'My profile' : 'Sign in'),
+                onTap: () {
+                  Navigator.pop(context);
+                  viewModel.isLoggedIn()
+                      ? Navigator.pushNamed(context, ProfileScreen.routeName)
+                      : Navigator.pushNamed(context, LoginScreen.routeName);
+                },
+              ),
+              if (!viewModel.isLoggedIn())
+                ListTile(
+                  leading: const Icon(Icons.person_add),
+                  title: const Text('Sign up'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, RegisterScreen.routeName);
+                  },
+                ),
+              if (viewModel.isLoggedIn())
+                ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Sign out'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    viewModel.signOut();
+                    showSnackbar(context, "Signed out successfully");
+                  },
+                ),
+              ListTile(
+                leading: const Icon(Icons.shopping_bag),
+                title: const Text('Shop'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, ProductsScreen.routeName, arguments: ProductsScreenArgument());
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.shopping_cart),
+                title: const Text('My Cart'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, CartScreen.routeName, arguments: CartScreenArgument());
+                },
+              ),
+              ListTile(
+                leading: Image.asset(
+                  'assets/hai_market_icon.png',
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),
+                title: const Text('About hai\'s market'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Add any code you want to execute when the user taps on Home
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -79,6 +170,7 @@ class Footer extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,6 +208,19 @@ class Footer extends StatelessWidget {
                         style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        viewModel.signOut();
+                        showSnackbar(context, "Sign out success");
+                      },
+                      child: Text(
+                        "Sign out",
+                        style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(),
@@ -132,9 +237,14 @@ class Footer extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "Hai's market",
-                      style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, AboutScreen.routeName);
+                      },
+                      child: Text(
+                        "Hai's market",
+                        style: GoogleFonts.roboto(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -230,11 +340,11 @@ class Footer extends StatelessWidget {
           ),
           const Spacer(),
           const Text(
-            "Copyright ©  Asvian S | All Rights Reserved",
+            "Copyright ©  Asvian S",
             style: TextStyle(color: Colors.white),
           ),
           const SizedBox(
-            height: 100,
+            height: 80,
           )
         ],
       ),
@@ -383,9 +493,14 @@ class Header extends StatelessWidget {
         ),
         Row(
           children: [
-            Image.asset(
-              "assets/ic_menu.png",
-              width: 50,
+            GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Image.asset(
+                "assets/ic_menu.png",
+                width: 50,
+              ),
             ),
             Expanded(
               child: Padding(

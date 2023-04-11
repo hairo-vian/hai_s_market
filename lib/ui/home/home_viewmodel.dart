@@ -48,6 +48,12 @@ class HomeViewModel extends ViewModel<HomeState> {
 
   bool isLoggedIn() => _dataSource.isLoggedIn;
 
+  String get username=> _dataSource.username;
+
+  void signOut() {
+    _dataSource.signOut();
+  }
+
   @override
   void onChange(Change<HomeState> change) {
     super.onChange(change);

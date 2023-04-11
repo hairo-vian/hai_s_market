@@ -16,4 +16,10 @@ class HomeDataSource {
   Future<Products> getLatestReleasedProducts() => _api.getLatestReleasedProduct();
 
   bool get isLoggedIn => preference.getBool(PrefContract.isLoggedIn) ?? false;
+
+  void signOut() {
+    preference.clear();
+  }
+
+  String get username => preference.getString(PrefContract.name) ?? "";
 }

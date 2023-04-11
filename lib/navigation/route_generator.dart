@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hai_market/model/error/error_model.dart';
+import 'package:hai_market/ui/about/about_screen.dart';
 import 'package:hai_market/ui/cart/cart_screen.dart';
 import 'package:hai_market/ui/error/error_screen.dart';
 import 'package:hai_market/ui/home/home_screen.dart';
@@ -24,6 +25,12 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => const RegisterScreen(),
+        );
+
+      case AboutScreen.routeName:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const AboutScreen(),
         );
 
       case HomeScreen.routeName:
