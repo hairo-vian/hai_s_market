@@ -6,6 +6,7 @@ import 'package:hai_market/ui/home/home_screen.dart';
 import 'package:hai_market/ui/login/login_screen.dart';
 import 'package:hai_market/ui/product_detail/product_detail_screen.dart';
 import 'package:hai_market/ui/products/products_screen.dart';
+import 'package:hai_market/ui/profile/profile_screen.dart';
 import 'package:hai_market/ui/register/register_screen.dart';
 import 'package:hai_market/ui/splash/splash_screen.dart';
 
@@ -29,6 +30,12 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => const HomeScreen(),
+        );
+
+      case ProfileScreen.routeName:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const ProfileScreen(),
         );
 
       case CartScreen.routeName:

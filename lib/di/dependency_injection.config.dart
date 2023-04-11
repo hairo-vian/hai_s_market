@@ -10,9 +10,9 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i6;
 
-import '../ui/cart/api/cart_api.dart' as _i21;
-import '../ui/cart/cart_viewmodel.dart' as _i23;
-import '../ui/cart/datasource/cart_datasource.dart' as _i22;
+import '../ui/cart/api/cart_api.dart' as _i24;
+import '../ui/cart/cart_viewmodel.dart' as _i26;
+import '../ui/cart/datasource/cart_datasource.dart' as _i25;
 import '../ui/home/api/home_api.dart' as _i4;
 import '../ui/home/datasource/home_datasource.dart' as _i5;
 import '../ui/home/home_viewmodel.dart' as _i7;
@@ -25,12 +25,15 @@ import '../ui/product_detail/product_detail_viewmodel.dart' as _i13;
 import '../ui/products/api/products_api.dart' as _i14;
 import '../ui/products/datasource/products_datasource.dart' as _i15;
 import '../ui/products/products_viewmodel.dart' as _i16;
-import '../ui/register/api/register_api.dart' as _i17;
-import '../ui/register/datasource/register_datasource.dart' as _i18;
-import '../ui/register/register_viewmodel.dart' as _i19;
-import 'dependency_injection.dart' as _i24;
+import '../ui/profile/api/profile_api.dart' as _i17;
+import '../ui/profile/datasource/profile_datasource.dart' as _i18;
+import '../ui/profile/profile_viewmodel.dart' as _i19;
+import '../ui/register/api/register_api.dart' as _i20;
+import '../ui/register/datasource/register_datasource.dart' as _i21;
+import '../ui/register/register_viewmodel.dart' as _i22;
+import 'dependency_injection.dart' as _i27;
 import 'factory/view_model_factory.dart'
-    as _i20; // ignore_for_file: unnecessary_lambdas
+    as _i23; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -75,22 +78,29 @@ _i1.GetIt $initGetIt(
       ));
   gh.factory<_i16.ProductsViewModel>(
       () => _i16.ProductsViewModel(get<_i15.ProductsDataSource>()));
-  gh.factory<_i17.RegisterApi>(() => _i17.RegisterApi(get<_i3.Dio>()));
-  gh.factory<_i18.RegisterDataSource>(() => _i18.RegisterDataSource(
-        get<_i17.RegisterApi>(),
+  gh.factory<_i17.ProfileApi>(() => _i17.ProfileApi(get<_i3.Dio>()));
+  gh.factory<_i18.ProfileDataSource>(() => _i18.ProfileDataSource(
+        get<_i17.ProfileApi>(),
         get<_i6.SharedPreferences>(),
       ));
-  gh.factory<_i19.RegisterViewModel>(
-      () => _i19.RegisterViewModel(get<_i18.RegisterDataSource>()));
-  gh.singleton<_i20.ViewModelFactory>(_i20.ViewModelFactoryImpl());
-  gh.factory<_i21.CartApi>(() => _i21.CartApi(get<_i3.Dio>()));
-  gh.factory<_i22.CartDataSource>(() => _i22.CartDataSource(
-        get<_i21.CartApi>(),
+  gh.factory<_i19.ProfileViewModel>(
+      () => _i19.ProfileViewModel(get<_i18.ProfileDataSource>()));
+  gh.factory<_i20.RegisterApi>(() => _i20.RegisterApi(get<_i3.Dio>()));
+  gh.factory<_i21.RegisterDataSource>(() => _i21.RegisterDataSource(
+        get<_i20.RegisterApi>(),
         get<_i6.SharedPreferences>(),
       ));
-  gh.factory<_i23.CartViewModel>(
-      () => _i23.CartViewModel(get<_i22.CartDataSource>()));
+  gh.factory<_i22.RegisterViewModel>(
+      () => _i22.RegisterViewModel(get<_i21.RegisterDataSource>()));
+  gh.singleton<_i23.ViewModelFactory>(_i23.ViewModelFactoryImpl());
+  gh.factory<_i24.CartApi>(() => _i24.CartApi(get<_i3.Dio>()));
+  gh.factory<_i25.CartDataSource>(() => _i25.CartDataSource(
+        get<_i24.CartApi>(),
+        get<_i6.SharedPreferences>(),
+      ));
+  gh.factory<_i26.CartViewModel>(
+      () => _i26.CartViewModel(get<_i25.CartDataSource>()));
   return get;
 }
 
-class _$RegisterModule extends _i24.RegisterModule {}
+class _$RegisterModule extends _i27.RegisterModule {}

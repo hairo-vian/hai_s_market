@@ -1,3 +1,4 @@
+import 'package:hai_market/contract/pref_contract.dart';
 import 'package:hai_market/model/product/product.dart';
 import 'package:hai_market/ui/home/api/home_api.dart';
 import 'package:injectable/injectable.dart';
@@ -13,4 +14,6 @@ class HomeDataSource {
   Future<List<String>> getCategories() => _api.getCategories();
 
   Future<Products> getLatestReleasedProducts() => _api.getLatestReleasedProduct();
+
+  bool get isLoggedIn => preference.getBool(PrefContract.isLoggedIn) ?? false;
 }

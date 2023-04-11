@@ -21,6 +21,7 @@ ProfileResponse _$ProfileResponseFromJson(Map<String, dynamic> json) =>
       json['id'] as int,
       json['email'] as String,
       json['name'] as String,
+      json['creationAt'] as String,
     );
 
 Map<String, dynamic> _$ProfileResponseToJson(ProfileResponse instance) =>
@@ -28,4 +29,5 @@ Map<String, dynamic> _$ProfileResponseToJson(ProfileResponse instance) =>
       'id': instance.id,
       'email': instance.email,
       'name': instance.name,
+      'creationAt': instance.creationAt,
     };

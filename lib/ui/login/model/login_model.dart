@@ -20,8 +20,9 @@ class ProfileResponse implements JSONModel {
   int id;
   String email;
   String name;
+  String creationAt;
 
-  ProfileResponse(this.id, this.email, this.name);
+  ProfileResponse(this.id, this.email, this.name,this.creationAt);
 
   @override
   Map<String, dynamic> toJson() => _$ProfileResponseToJson(this);

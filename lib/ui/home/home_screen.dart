@@ -6,9 +6,11 @@ import 'package:hai_market/ui/home/home_viewmodel.dart';
 import 'package:hai_market/ui/login/login_screen.dart';
 import 'package:hai_market/ui/product_detail/product_detail_screen.dart';
 import 'package:hai_market/ui/products/products_screen.dart';
+import 'package:hai_market/ui/profile/profile_screen.dart';
 import 'package:hai_market/ui/register/register_screen.dart';
 import 'package:hai_market/util/extensions.dart';
 import 'package:hai_market/util/size_util.dart';
+import 'package:hai_market/util/snackbar_util.dart';
 import 'package:hai_market/util/view_component/screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,7 +38,7 @@ class HomeScreenState extends ScreenState<HomeScreen, HomeViewModel, HomeState> 
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Header(context: context),
+            Header(context: context, viewModel: viewModel),
             const SizedBox(
               height: 50,
             ),
@@ -48,7 +50,9 @@ class HomeScreenState extends ScreenState<HomeScreen, HomeViewModel, HomeState> 
             const SizedBox(
               height: 20,
             ),
-            const Footer(),
+            Footer(
+              viewModel: viewModel,
+            ),
           ],
         ),
       ),
@@ -57,8 +61,11 @@ class HomeScreenState extends ScreenState<HomeScreen, HomeViewModel, HomeState> 
 }
 
 class Footer extends StatelessWidget {
+  final HomeViewModel viewModel;
+
   const Footer({
     super.key,
+    required this.viewModel,
   });
 
   @override
@@ -88,7 +95,9 @@ class Footer extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, LoginScreen.routeName);
+                        viewModel.isLoggedIn()
+                            ? showSnackbar(context, "You already signed in")
+                            : Navigator.pushNamed(context, LoginScreen.routeName);
                       },
                       child: Text(
                         "Sign in",
@@ -352,9 +361,11 @@ class Header extends StatelessWidget {
   Header({
     super.key,
     required this.context,
+    required this.viewModel,
   });
 
   final BuildContext context;
+  final HomeViewModel viewModel;
   final _searchController = TextEditingController();
 
   @override
@@ -416,7 +427,10 @@ class Header extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, LoginScreen.routeName);
+                Navigator.pushNamed(
+                  context,
+                  viewModel.isLoggedIn() ? ProfileScreen.routeName : LoginScreen.routeName,
+                );
               },
               child: Image.asset(
                 "assets/ic_avatar.png",
